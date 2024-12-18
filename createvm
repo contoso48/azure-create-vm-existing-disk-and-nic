@@ -5,12 +5,12 @@ az account set --subscription $subscriptionId
 
 #PARAMETERS
 RGName=VMAZRS
-osType=windows
+osType=Windows
 VMName=vmazrs3
 skuType=Standard_E2s_v5
 location=eastus2
-NicName="vm_nicname"
-managedDiskName=usavmzrs_OsDisk_1_925fd04add244e0abfddacd80a202aef
+NicName="<nicnameonly>"
+managedDiskName=<disknameonly>
 managedDiskId=$(az disk show --name $managedDiskName --resource-group $RGName --query [id] -o tsv)
 nicId=$(az network nic show --name $NicName -g $RGName --query [id] -o tsv)
 availabilityZone=3
