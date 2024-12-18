@@ -1,0 +1,21 @@
+#Provide the subscription Id
+subscriptionId="abcxxx"
+#Set the context to the subscription Id where Managed Disk exists and where VM will be created
+az account set --subscription $subscriptionId
+
+#PARAMETERS
+RGName=VMAZRS
+osType=windows
+VMName=vmazrs3
+skuType=Standard_E2s_v5
+location=eastus2
+NicName="vm_nicname"
+managedDiskName=usavmzrs_OsDisk_1_925fd04add244e0abfddacd80a202aef
+managedDiskId=$(az disk show --name $managedDiskName --resource-group $RGName --query [id] -o tsv)
+nicId=$(az network nic show --name $NicName -g $RGName)
+# nicId=$(az network nic show --name $NicName -g $RGName --query [id] -o tsv)
+availabilityZone=3
+osType=Windows
+
+#Create VM by attaching existing managed disks as OS
+az vm create --name $VMName --resource-group $RGName --attach-os-disk $managedDiskId --nics $nicId --size $skuType --os-type $osType --zone $availabilityZone 
